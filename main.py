@@ -1,27 +1,32 @@
-import sys
+from src.data_fetcher import fetch_stock_data
+from src.data_cleaner import clean_data
+from src.analytics import add_indicators
+from src.visualizer import generate_visuals
 import os
-sys.path.append(os.path.join(os.path.dirname(__file__), "src"))
-
-from data_fetcher import fetch_stock_data
-from data_cleaner import clean_stock_data
 
 def main():
     tickers = ["AAPL", "MSFT", "GOOGL"]
-    
+
     for ticker in tickers:
-        print(f"Fetching data for {ticker}...")
+        print(f"Fetching data for {ticker}")
         df = fetch_stock_data(ticker, period="6mo")
-        
-        # Save raw data
-        raw_file = f"data/processed/{ticker}_raw.csv"
-        df.to_csv(raw_file, index=False)
-        print(f"{ticker} raw data saved!")
-        
-        # Clean the data
-        df_clean = clean_stock_data(raw_file)
-        clean_file = f"data/processed/{ticker}_clean.csv"
-        df_clean.to_csv(clean_file, index=False)
-        print(f"{ticker} cleaned data saved!")
+
+        print(f"Cleaning data for {ticker}")
+        df = clean_data(df)
+
+        print(f"Adding indicators for {ticker}")
+        df = add_indicators(df)
+
+        os.makedirs("data/processed", exist_ok=True)
+
+        save_path = f"data/processed/{ticker}_stock.csv"
+        df.to_csv(save_path, index=False)
+        print(f"{ticker} saved to {save_path}")
+
+        print(f"Generating visuals for {ticker}")
+        generate_visuals(ticker)
+
+    print("\nAll tasks completed successfully.")
 
 if __name__ == "__main__":
     main()
