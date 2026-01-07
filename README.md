@@ -8,6 +8,7 @@ The system focuses on signal generation, backtesting, performance evaluation, an
 
 ## Project Structure
 
+```text
 market-intelligence-system/
 ├── data/
 │   ├── raw/
