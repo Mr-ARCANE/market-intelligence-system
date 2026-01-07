@@ -12,15 +12,18 @@ market-intelligence-system/
 ├── data/
 │   ├── raw/
 │   └── processed/
+│
 ├── src/
 │   ├── analytics.py        # Indicators and signal logic
 │   ├── backtester.py       # Strategy and benchmark evaluation
 │   ├── metrics.py          # Risk and performance metrics
 │   ├── visualizer.py       # Plots and visual analysis
-│   └── experiments.py     # Parameter sweeps and experiments
+│   └── experiments.py      # Parameter sweeps
+│
 ├── main.py                 # End-to-end execution pipeline
 ├── requirements.txt
 └── README.md
+
 
 ---
 
