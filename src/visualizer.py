@@ -2,58 +2,69 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import os
 
-def generate_visuals(ticker):
-    # Load processed data for ticker
-    path = f"data/processed/{ticker}_stock.csv"
-    if not os.path.exists(path):
-        print(f"No processed data found for {ticker}")
-        return
 
-    df = pd.read_csv(path)
-
-    # Ensure plots directory exists
-    os.makedirs("data/plots", exist_ok=True)
-
-    # 1. Price Chart
-    plt.figure(figsize=(12, 6))
+def plot_price_with_signals(df, ticker):
+    plt.figure()
     plt.plot(df["Date"], df["Close"], label="Close Price")
-    plt.title(f"{ticker} Price")
+
+    signal_points = df[df["RSI_SIGNAL"] == 1]
+    plt.scatter(
+        signal_points["Date"],
+        signal_points["Close"],
+        marker="^",
+        label="RSI Buy Signal"
+    )
+
+    plt.title(f"{ticker} Price with RSI Signals")
     plt.xlabel("Date")
     plt.ylabel("Price")
-    plt.grid(True)
+    plt.legend()
     plt.xticks(rotation=45)
-    plt.tight_layout()
-    plt.savefig(f"data/plots/{ticker}_price.png")
+
+    os.makedirs("data/plots", exist_ok=True)
+    plt.savefig(f"data/plots/{ticker}_price_signals.png")
     plt.close()
 
-    # 2. RSI
-    if "RSI" in df.columns:
-        plt.figure(figsize=(12, 4))
-        plt.plot(df["Date"], df["RSI"], label="RSI")
-        plt.axhline(70, color="red", linestyle="--")
-        plt.axhline(30, color="green", linestyle="--")
-        plt.title(f"{ticker} RSI")
-        plt.xlabel("Date")
-        plt.ylabel("RSI")
-        plt.grid(True)
-        plt.xticks(rotation=45)
-        plt.tight_layout()
-        plt.savefig(f"data/plots/{ticker}_RSI.png")
-        plt.close()
 
-    # 3. MACD
-    if "MACD" in df.columns and "Signal" in df.columns:
-        plt.figure(figsize=(12, 4))
-        plt.plot(df["Date"], df["MACD"], label="MACD")
-        plt.plot(df["Date"], df["Signal"], label="Signal")
-        plt.title(f"{ticker} MACD")
-        plt.xlabel("Date")
-        plt.ylabel("Value")
-        plt.legend()
-        plt.grid(True)
-        plt.xticks(rotation=45)
-        plt.tight_layout()
-        plt.savefig(f"data/plots/{ticker}_MACD.png")
-        plt.close()
+def plot_strategy_vs_benchmark(df, ticker):
+    plt.figure()
+    plt.plot(df["Date"], df["Cumulative_Return"], label="RSI Strategy")
+    plt.plot(df["Date"], df["BH_Cumulative_Return"], label="Buy and Hold")
+
+    plt.title(f"{ticker} Strategy vs Buy & Hold")
+    plt.xlabel("Date")
+    plt.ylabel("Cumulative Return")
+    plt.legend()
+    plt.xticks(rotation=45)
+
+    os.makedirs("data/plots", exist_ok=True)
+    plt.savefig(f"data/plots/{ticker}_strategy_vs_bh.png")
+    plt.close()
+
+
+def plot_drawdown(df, ticker):
+    cumulative = df["Cumulative_Return"] + 1
+    rolling_max = cumulative.cummax()
+    drawdown = (cumulative - rolling_max) / rolling_max
+
+    plt.figure()
+    plt.plot(df["Date"], drawdown)
+
+    plt.title(f"{ticker} Strategy Drawdown")
+    plt.xlabel("Date")
+    plt.ylabel("Drawdown")
+    plt.xticks(rotation=45)
+
+    os.makedirs("data/plots", exist_ok=True)
+    plt.savefig(f"data/plots/{ticker}_drawdown.png")
+    plt.close()
+
+
+def generate_visuals(ticker):
+    df = pd.read_csv(f"data/processed/{ticker}_stock.csv")
+
+    plot_price_with_signals(df, ticker)
+    plot_strategy_vs_benchmark(df, ticker)
+    plot_drawdown(df, ticker)
 
     print(f"Visuals generated for {ticker} saved in data/plots/")

@@ -31,7 +31,6 @@ def compute_macd(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 def add_indicators(df: pd.DataFrame) -> pd.DataFrame:
-    # Ensure at least 60 rows to avoid broken indicators
     if len(df) < 60:
         df = df.copy()
         df["Return"] = None
@@ -50,3 +49,9 @@ def add_indicators(df: pd.DataFrame) -> pd.DataFrame:
     df = compute_rsi(df)
     df = compute_macd(df)
     return df
+
+def add_rsi_signal(df, threshold=30):
+    df = df.copy()
+    df["RSI_SIGNAL"] = (df["RSI"] < threshold).astype(int)
+    return df
+

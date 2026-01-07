@@ -1,6 +1,13 @@
+# Python
 __pycache__/
 *.pyc
-.env
+.venv/
+env/
 
+# Data outputs
+data/raw/
 data/processed/
-data/plots/
+
+# OS / editor
+.DS_Store
+.vscode/
