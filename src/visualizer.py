@@ -7,85 +7,91 @@ OUTPUT_DIR = "outputs"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 
+def _format_date_axis(ax):
+    """
+    Make date axis readable and non-clustered.
+    """
+    locator = mdates.AutoDateLocator()
+    formatter = mdates.ConciseDateFormatter(locator)
+
+    ax.xaxis.set_major_locator(locator)
+    ax.xaxis.set_major_formatter(formatter)
+
+    for label in ax.get_xticklabels():
+        label.set_rotation(45)
+        label.set_ha("right")
+
+
 def plot_price_with_signals(df, ticker):
-    plt.figure()
-    plt.plot(df["Date"], df["Close"], label="Close Price")
+    df["Date"] = pd.to_datetime(df["Date"], utc=True).dt.tz_localize(None)
+
+
+    fig, ax = plt.subplots(figsize=(12, 6))
+
+    ax.plot(df["Date"], df["Close"], label="Close Price")
 
     signal_points = df[df["RSI_SIGNAL"] == 1]
-    plt.scatter(
+    ax.scatter(
         signal_points["Date"],
         signal_points["Close"],
         marker="^",
         label="RSI Buy Signal"
     )
 
-    plt.title(f"{ticker} Price with RSI Signals")
-    plt.xlabel("Date")
-    plt.ylabel("Price")
-    plt.legend()
-    
-    ax = plt.gca()
-    ax.xaxis.set_major_locator(mdates.AutoDateLocator())
-    ax.xaxis.set_major_formatter(
-        mdates.ConciseDateFormatter(ax.xaxis.get_major_locator())
-    )
+    _format_date_axis(ax)
 
-    plt.savefig(
-        f"{OUTPUT_DIR}/{ticker}_price_signals.png",
-        dpi=150,
-        bbox_inches="tight"
-    )
+    ax.set_title(f"{ticker} Price with RSI Signals")
+    ax.set_xlabel("Date")
+    ax.set_ylabel("Price")
+    ax.legend()
+
+    plt.tight_layout()
+    plt.savefig(f"{OUTPUT_DIR}/{ticker}_price_signals.png", dpi=150)
     plt.close()
 
 
 def plot_strategy_vs_benchmark(df, ticker):
-    plt.figure()
-    plt.plot(df["Date"], df["Cumulative_Return"], label="RSI Strategy")
-    plt.plot(df["Date"], df["BH_Cumulative_Return"], label="Buy and Hold")
+    df["Date"] = pd.to_datetime(df["Date"], utc=True).dt.tz_localize(None)
 
-    plt.title(f"{ticker} Strategy vs Buy & Hold")
-    plt.xlabel("Date")
-    plt.ylabel("Cumulative Return")
-    plt.legend()
-    
-    ax = plt.gca()
-    ax.xaxis.set_major_locator(mdates.AutoDateLocator())
-    ax.xaxis.set_major_formatter(
-        mdates.ConciseDateFormatter(ax.xaxis.get_major_locator())
-    )
 
-    plt.savefig(
-        f"{OUTPUT_DIR}/{ticker}_strategy_vs_bh.png",
-        dpi=150,
-        bbox_inches="tight"
-    )
+    fig, ax = plt.subplots(figsize=(12, 6))
+
+    ax.plot(df["Date"], df["Cumulative_Return"], label="RSI Strategy")
+    ax.plot(df["Date"], df["BH_Cumulative_Return"], label="Buy and Hold")
+
+    _format_date_axis(ax)
+
+    ax.set_title(f"{ticker} Strategy vs Buy & Hold")
+    ax.set_xlabel("Date")
+    ax.set_ylabel("Cumulative Return")
+    ax.legend()
+
+    plt.tight_layout()
+    plt.savefig(f"{OUTPUT_DIR}/{ticker}_strategy_vs_bh.png", dpi=150)
     plt.close()
 
 
 def plot_drawdown(df, ticker):
-    cumulative = df["Cumulative_Return"] + 1
-    rolling_max = cumulative.cummax()
-    drawdown = (cumulative - rolling_max) / rolling_max
+   df["Date"] = pd.to_datetime(df["Date"], utc=True).dt.tz_localize(None)
 
-    plt.figure()
-    plt.plot(df["Date"], drawdown)
 
-    plt.title(f"{ticker} Strategy Drawdown")
-    plt.xlabel("Date")
-    plt.ylabel("Drawdown")
-    
-    ax = plt.gca()
-    ax.xaxis.set_major_locator(mdates.AutoDateLocator())
-    ax.xaxis.set_major_formatter(
-        mdates.ConciseDateFormatter(ax.xaxis.get_major_locator())
-    )
+   cumulative = df["Cumulative_Return"] + 1
+   rolling_max = cumulative.cummax()
+   drawdown = (cumulative - rolling_max) / rolling_max
 
-    plt.savefig(
-        f"{OUTPUT_DIR}/{ticker}_drawdown.png",
-        dpi=150,
-        bbox_inches="tight"
-    )
-    plt.close()
+   fig, ax = plt.subplots(figsize=(12, 6))
+
+   ax.plot(df["Date"], drawdown, label="Drawdown")
+
+   _format_date_axis(ax)
+ 
+   ax.set_title(f"{ticker} Strategy Drawdown")
+   ax.set_xlabel("Date")
+   ax.set_ylabel("Drawdown")
+
+   plt.tight_layout()
+   plt.savefig(f"{OUTPUT_DIR}/{ticker}_drawdown.png", dpi=150)
+   plt.close()
 
 
 def generate_visuals(ticker):
