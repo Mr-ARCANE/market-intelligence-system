@@ -1,5 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 import os
 
 OUTPUT_DIR = "outputs"
@@ -22,7 +23,12 @@ def plot_price_with_signals(df, ticker):
     plt.xlabel("Date")
     plt.ylabel("Price")
     plt.legend()
-    plt.xticks(rotation=45)
+    
+    ax = plt.gca()
+    ax.xaxis.set_major_locator(mdates.AutoDateLocator())
+    ax.xaxis.set_major_formatter(
+        mdates.ConciseDateFormatter(ax.xaxis.get_major_locator())
+    )
 
     plt.savefig(
         f"{OUTPUT_DIR}/{ticker}_price_signals.png",
@@ -41,7 +47,12 @@ def plot_strategy_vs_benchmark(df, ticker):
     plt.xlabel("Date")
     plt.ylabel("Cumulative Return")
     plt.legend()
-    plt.xticks(rotation=45)
+    
+    ax = plt.gca()
+    ax.xaxis.set_major_locator(mdates.AutoDateLocator())
+    ax.xaxis.set_major_formatter(
+        mdates.ConciseDateFormatter(ax.xaxis.get_major_locator())
+    )
 
     plt.savefig(
         f"{OUTPUT_DIR}/{ticker}_strategy_vs_bh.png",
@@ -62,7 +73,12 @@ def plot_drawdown(df, ticker):
     plt.title(f"{ticker} Strategy Drawdown")
     plt.xlabel("Date")
     plt.ylabel("Drawdown")
-    plt.xticks(rotation=45)
+    
+    ax = plt.gca()
+    ax.xaxis.set_major_locator(mdates.AutoDateLocator())
+    ax.xaxis.set_major_formatter(
+        mdates.ConciseDateFormatter(ax.xaxis.get_major_locator())
+    )
 
     plt.savefig(
         f"{OUTPUT_DIR}/{ticker}_drawdown.png",
