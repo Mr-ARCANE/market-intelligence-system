@@ -45,6 +45,10 @@ def plot_price_with_signals(df, ticker):
     ax.set_ylabel("Price")
     ax.legend()
 
+    ax.xaxis.set_major_locator(mdates.MonthLocator(interval=2))
+    ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y-%m"))
+    fig.autofmt_xdate()
+
     plt.tight_layout()
     plt.savefig(f"{OUTPUT_DIR}/{ticker}_price_signals.png", dpi=150)
     plt.close()
@@ -65,6 +69,11 @@ def plot_strategy_vs_benchmark(df, ticker):
     ax.set_xlabel("Date")
     ax.set_ylabel("Cumulative Return")
     ax.legend()
+
+    ax.xaxis.set_major_locator(mdates.MonthLocator(interval=2))
+    ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y-%m"))
+    fig.autofmt_xdate()
+
 
     plt.tight_layout()
     plt.savefig(f"{OUTPUT_DIR}/{ticker}_strategy_vs_bh.png", dpi=150)
@@ -88,6 +97,12 @@ def plot_drawdown(df, ticker):
    ax.set_title(f"{ticker} Strategy Drawdown")
    ax.set_xlabel("Date")
    ax.set_ylabel("Drawdown")
+   ax.legend()
+
+   ax.xaxis.set_major_locator(mdates.MonthLocator(interval=2))
+   ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y-%m"))
+   fig.autofmt_xdate()
+
 
    plt.tight_layout()
    plt.savefig(f"{OUTPUT_DIR}/{ticker}_drawdown.png", dpi=150)
@@ -96,9 +111,11 @@ def plot_drawdown(df, ticker):
 
 def generate_visuals(ticker):
     df = pd.read_csv(f"data/processed/{ticker}_stock.csv")
+    df["Date"] = pd.to_datetime(df["Date"], utc=True).dt.tz_localize(None)
 
     plot_price_with_signals(df, ticker)
     plot_strategy_vs_benchmark(df, ticker)
     plot_drawdown(df, ticker)
 
     print(f"Visuals generated for {ticker} saved in {OUTPUT_DIR}/")
+
