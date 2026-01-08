@@ -5,7 +5,6 @@ A modular Python framework for researching, evaluating, and benchmarking quantit
 The system focuses on signal generation, backtesting, performance evaluation, and parameter experimentation in a clean, reproducible pipeline.
 
 ---
-
 ## Project Structure
 
 ```text
@@ -24,7 +23,7 @@ market-intelligence-system/
 ├── main.py                 # End-to-end execution pipeline
 ├── requirements.txt
 └── README.md
-
+```
 
 ---
 
@@ -34,3 +33,18 @@ Install dependencies:
 
 ```bash
 pip install -r requirements.txt
+```
+
+Run the pipeline:
+
+```bash
+python main.py
+```
+
+---
+
+## Notes
+
+This project is designed for research and educational purposes only.  
+It is not financial advice.
+
