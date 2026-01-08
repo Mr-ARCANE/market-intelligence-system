@@ -2,6 +2,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import os
 
+OUTPUT_DIR = "outputs"
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+
 
 def plot_price_with_signals(df, ticker):
     plt.figure()
@@ -21,8 +24,11 @@ def plot_price_with_signals(df, ticker):
     plt.legend()
     plt.xticks(rotation=45)
 
-    os.makedirs("data/plots", exist_ok=True)
-    plt.savefig(f"data/plots/{ticker}_price_signals.png")
+    plt.savefig(
+        f"{OUTPUT_DIR}/{ticker}_price_signals.png",
+        dpi=150,
+        bbox_inches="tight"
+    )
     plt.close()
 
 
@@ -37,8 +43,11 @@ def plot_strategy_vs_benchmark(df, ticker):
     plt.legend()
     plt.xticks(rotation=45)
 
-    os.makedirs("data/plots", exist_ok=True)
-    plt.savefig(f"data/plots/{ticker}_strategy_vs_bh.png")
+    plt.savefig(
+        f"{OUTPUT_DIR}/{ticker}_strategy_vs_bh.png",
+        dpi=150,
+        bbox_inches="tight"
+    )
     plt.close()
 
 
@@ -55,8 +64,11 @@ def plot_drawdown(df, ticker):
     plt.ylabel("Drawdown")
     plt.xticks(rotation=45)
 
-    os.makedirs("data/plots", exist_ok=True)
-    plt.savefig(f"data/plots/{ticker}_drawdown.png")
+    plt.savefig(
+        f"{OUTPUT_DIR}/{ticker}_drawdown.png",
+        dpi=150,
+        bbox_inches="tight"
+    )
     plt.close()
 
 
@@ -67,4 +79,4 @@ def generate_visuals(ticker):
     plot_strategy_vs_benchmark(df, ticker)
     plot_drawdown(df, ticker)
 
-    print(f"Visuals generated for {ticker} saved in data/plots/")
+    print(f"Visuals generated for {ticker} saved in {OUTPUT_DIR}/")
