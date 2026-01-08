@@ -226,19 +226,19 @@ python main.py
 ## Outputs Generated
 Running main.py produces the following artifacts:
 
--Cleaned and enriched datasets
+- Cleaned and enriched datasets
 data/processed/*_stock.csv
 
--Backtest summaries
+- Backtest summaries
 data/processed/*_rsi_backtest.csv
 
--Performance metrics
+- Performance metrics
 data/processed/*_performance_metrics.csv
 
--Parameter sweep results
+- Parameter sweep results
 data/processed/*_rsi_parameter_sweep.csv
 
--Strategy visualizations (PNG files)
+- Strategy visualizations (PNG files)
 outputs/
 
 All outputs are fully reproducible from a clean clone of the repository.
@@ -246,15 +246,15 @@ All outputs are fully reproducible from a clean clone of the repository.
 ---
 ## Design Principles
 
--Modular, readable, and testable code
+- Modular, readable, and testable code
 
--Clear separation of concerns across pipeline stages
+- Clear separation of concerns across pipeline stages
 
--No hidden state or manual intervention
+- No hidden state or manual intervention
 
--Explicit assumptions and transparent logic
+- Explicit assumptions and transparent logic
 
--Research-first design, not production trading code
+- Research-first design, not production trading code
 
 ---
 
