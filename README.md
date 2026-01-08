@@ -1,8 +1,173 @@
 # Market Intelligence System
 
-A modular Python framework for researching, evaluating, and benchmarking quantitative trading strategies using historical equity data.
+A modular Python framework for researching, evaluating, and benchmarking
+rule-based quantitative trading strategies using historical equity data.
 
-The system focuses on signal generation, backtesting, performance evaluation, and parameter experimentation in a clean, reproducible pipeline.
+The project focuses on **signal generation**, **backtesting**, **benchmark comparison**,
+**risk metrics**, and **parameter experimentation** in a clean, reproducible pipeline.
+
+This is a research and analysis system, not a production trading engine.
+
+---
+
+## What This Project Does
+
+This system answers a simple but important question:
+
+> Does a given technical signal outperform buy-and-hold, and under what conditions?
+
+It allows you to:
+- Fetch historical equity price data
+- Generate technical indicators and trading signals
+- Backtest strategies across multiple forward horizons
+- Benchmark performance against buy-and-hold
+- Compute basic risk and performance metrics
+- Visualize strategy behavior and drawdowns
+- Run parameter sweeps to test signal sensitivity
+
+## Core Features
+
+### 1. Data Pipeline
+- Historical equity data fetched via `yfinance`
+- Cleaning and formatting into consistent OHLC structure
+- Automatic directory creation for reproducibility
+
+### 2. Indicators and Signals
+Implemented indicators:
+- Daily returns
+- Cumulative returns
+- Moving averages (MA20, MA50)
+- Volatility (annualized)
+- RSI
+- MACD
+
+Signal logic:
+- RSI-based long signal when RSI falls below a configurable threshold
+
+### 3. Backtesting
+- Forward return evaluation over multiple horizons (5, 10, 20 days)
+- Signal-level performance statistics:
+  - Mean return
+  - Median return
+  - Win rate
+  - Number of signals
+
+### 4. Benchmarking
+- Buy-and-hold daily and cumulative returns
+- Direct comparison between strategy and benchmark
+- Excess return calculation
+
+### 5. Risk and Performance Metrics
+- Volatility
+- Maximum drawdown
+- Strategy vs benchmark comparison metrics
+
+### 6. Parameter Experiments
+- RSI threshold sweep
+- Sensitivity analysis of signal performance
+
+### 7. Visualization
+Automatically generated plots:
+- Price series with RSI buy signals
+- Strategy vs buy-and-hold cumulative returns
+- Strategy drawdown over time
+
+## Core Features
+
+### 1. Data Pipeline
+- Historical equity data fetched via `yfinance`
+- Cleaning and formatting into consistent OHLC structure
+- Automatic directory creation for reproducibility
+
+### 2. Indicators and Signals
+Implemented indicators:
+- Daily returns
+- Cumulative returns
+- Moving averages (MA20, MA50)
+- Volatility (annualized)
+- RSI
+- MACD
+
+Signal logic:
+- RSI-based long signal when RSI falls below a configurable threshold
+
+### 3. Backtesting
+- Forward return evaluation over multiple horizons (5, 10, 20 days)
+- Signal-level performance statistics:
+  - Mean return
+  - Median return
+  - Win rate
+  - Number of signals
+
+### 4. Benchmarking
+- Buy-and-hold daily and cumulative returns
+- Direct comparison between strategy and benchmark
+- Excess return calculation
+
+### 5. Risk and Performance Metrics
+- Volatility
+- Maximum drawdown
+- Strategy vs benchmark comparison metrics
+
+### 6. Parameter Experiments
+- RSI threshold sweep
+- Sensitivity analysis of signal performance
+
+### 7. Visualization
+Automatically generated plots:
+- Price series with RSI buy signals
+- Strategy vs buy-and-hold cumulative returns
+- Strategy drawdown over time
+
+## Core Features
+
+### 1. Data Pipeline
+- Historical equity data fetched via `yfinance`
+- Cleaning and formatting into consistent OHLC structure
+- Automatic directory creation for reproducibility
+
+### 2. Indicators and Signals
+Implemented indicators:
+- Daily returns
+- Cumulative returns
+- Moving averages (MA20, MA50)
+- Volatility (annualized)
+- RSI
+- MACD
+
+Signal logic:
+- RSI-based long signal when RSI falls below a configurable threshold
+
+### 3. Backtesting
+- Forward return evaluation over multiple horizons (5, 10, 20 days)
+- Signal-level performance statistics:
+  - Mean return
+  - Median return
+  - Win rate
+  - Number of signals
+
+### 4. Benchmarking
+- Buy-and-hold daily and cumulative returns
+- Direct comparison between strategy and benchmark
+- Excess return calculation
+
+### 5. Risk and Performance Metrics
+- Volatility
+- Maximum drawdown
+- Strategy vs benchmark comparison metrics
+
+### 6. Parameter Experiments
+- RSI threshold sweep
+- Sensitivity analysis of signal performance
+
+### 7. Visualization
+Automatically generated plots:
+- Price series with RSI buy signals
+- Strategy vs buy-and-hold cumulative returns
+- Strategy drawdown over time
+
+All plots are saved to the `outputs/` directory.
+
 
 ---
 ## Project Structure
@@ -42,6 +207,21 @@ python main.py
 ```
 
 ---
+## Example Outputs (AAPL)
+
+The following plots illustrate the full pipeline output using AAPL as a representative example.
+The same analysis is automatically generated for MSFT and GOOGL.
+
+### Price with RSI Buy Signals
+![AAPL RSI Signals](outputs/AAPL_price_signals.png)
+
+### Strategy vs Buy-and-Hold
+![AAPL Strategy vs BH](outputs/AAPL_strategy_vs_bh.png)
+
+### Strategy Drawdown
+![AAPL Drawdown](outputs/AAPL_drawdown.png)
+
+<sub>Identical outputs are generated for MSFT and GOOGL.</sub>
 
 ## Notes
 
