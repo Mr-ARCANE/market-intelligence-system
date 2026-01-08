@@ -1,191 +1,77 @@
-# Market Intelligence System
+# Mean Reversion Signal Backtesting (Educational Research)
 
-A modular Python framework for researching, evaluating, and benchmarking
-rule-based quantitative trading strategies using historical equity data.
+## Overview
+This repository contains an educational research project that explores the behavior of simple short-horizon mean reversion signals using RSI as a proxy for short-term selling pressure.
 
-The project focuses on **signal generation**, **backtesting**, **benchmark comparison**,
-**risk metrics**, and **parameter experimentation** in a clean, reproducible pipeline.
+The primary goal is to practice **quantitative research methodology**, **backtesting workflows**, and **experimental discipline**, not to develop deployable or profitable trading strategies.
 
-This is a research and analysis system, not a production trading engine.
+## Research Question
+This project investigates a deliberately narrow question:
 
----
+> How do naive RSI-based mean reversion signals behave in historical equity data under simplified assumptions?
 
-## What This Project Does
+The emphasis is on understanding signal behavior, sensitivity to design choices, and why apparent in-sample performance often fails to generalize.
 
-This system answers a simple but important question:
+## Scope and Intent
+This repository is intentionally limited in scope.
 
-> Does a given technical signal outperform buy-and-hold, and under what conditions?
+It is designed to:
+- Explore basic signal generation and evaluation pipelines
+- Demonstrate modular backtesting code structure
+- Surface common pitfalls in quantitative research
+- Serve as a discussion artifact for learning and interviews
 
-It allows you to:
-- Fetch historical equity price data
-- Generate technical indicators and trading signals
-- Backtest strategies across multiple forward horizons
-- Benchmark performance against buy-and-hold
-- Compute basic risk and performance metrics
-- Visualize strategy behavior and drawdowns
-- Run parameter sweeps to test signal sensitivity
+It is **not** intended to:
+- Discover persistent alpha
+- Support live or paper trading
+- Represent a complete investment strategy
+- Compete with professional research platforms
 
-## Core Features
+## Methodology Summary
+- Single-asset historical equity analysis
+- Long-only RSI threshold signal
+- Fixed forward return horizons (for example 5, 10, and 20 days)
+- In-sample baseline evaluation
+- Buy-and-hold used as a naive benchmark for reference
 
-### 1. Data Pipeline
-- Historical equity data fetched via `yfinance`
-- Cleaning and formatting into consistent OHLC structure
-- Automatic directory creation for reproducibility
+The methodology is intentionally simple to make limitations visible rather than hidden.
 
-### 2. Indicators and Signals
-Implemented indicators:
-- Daily returns
-- Cumulative returns
-- Moving averages (MA20, MA50)
-- Volatility (annualized)
-- RSI
-- MACD
+## Diagnostic Outputs
+The project generates diagnostic plots and summary statistics to inspect signal behavior, including:
+- Price series annotated with RSI signals
+- Signal returns compared to buy-and-hold (in-sample, no costs)
+- Strategy drawdown visualizations
 
-Signal logic:
-- RSI-based long signal when RSI falls below a configurable threshold
+These outputs are intended for **qualitative inspection only**.  
+They should not be interpreted as evidence of economic viability or predictive power.
 
-### 3. Backtesting
-- Forward return evaluation over multiple horizons (5, 10, 20 days)
-- Signal-level performance statistics:
-  - Mean return
-  - Median return
-  - Win rate
-  - Number of signals
+## Known Limitations
+This project makes simplifying assumptions by design:
 
-### 4. Benchmarking
-- Buy-and-hold daily and cumulative returns
-- Direct comparison between strategy and benchmark
-- Excess return calculation
+- No transaction costs or slippage
+- No position sizing or portfolio construction
+- No explicit exit rules beyond fixed horizons
+- No regime detection or trend filtering
+- No out-of-sample or walk-forward validation
+- Single-asset evaluation per run
 
-### 5. Risk and Performance Metrics
-- Volatility
-- Maximum drawdown
-- Strategy vs benchmark comparison metrics
+As a result, reported performance metrics are **descriptive**, not predictive.
 
-### 6. Parameter Experiments
-- RSI threshold sweep
-- Sensitivity analysis of signal performance
-
-### 7. Visualization
-Automatically generated plots:
-- Price series with RSI buy signals
-- Strategy vs buy-and-hold cumulative returns
-- Strategy drawdown over time
-
-## Core Features
-
-### 1. Data Pipeline
-- Historical equity data fetched via `yfinance`
-- Cleaning and formatting into consistent OHLC structure
-- Automatic directory creation for reproducibility
-
-### 2. Indicators and Signals
-Implemented indicators:
-- Daily returns
-- Cumulative returns
-- Moving averages (MA20, MA50)
-- Volatility (annualized)
-- RSI
-- MACD
-
-Signal logic:
-- RSI-based long signal when RSI falls below a configurable threshold
-
-### 3. Backtesting
-- Forward return evaluation over multiple horizons (5, 10, 20 days)
-- Signal-level performance statistics:
-  - Mean return
-  - Median return
-  - Win rate
-  - Number of signals
-
-### 4. Benchmarking
-- Buy-and-hold daily and cumulative returns
-- Direct comparison between strategy and benchmark
-- Excess return calculation
-
-### 5. Risk and Performance Metrics
-- Volatility
-- Maximum drawdown
-- Strategy vs benchmark comparison metrics
-
-### 6. Parameter Experiments
-- RSI threshold sweep
-- Sensitivity analysis of signal performance
-
-### 7. Visualization
-Automatically generated plots:
-- Price series with RSI buy signals
-- Strategy vs buy-and-hold cumulative returns
-- Strategy drawdown over time
-
-## Core Features
-
-### 1. Data Pipeline
-- Historical equity data fetched via `yfinance`
-- Cleaning and formatting into consistent OHLC structure
-- Automatic directory creation for reproducibility
-
-### 2. Indicators and Signals
-Implemented indicators:
-- Daily returns
-- Cumulative returns
-- Moving averages (MA20, MA50)
-- Volatility (annualized)
-- RSI
-- MACD
-
-Signal logic:
-- RSI-based long signal when RSI falls below a configurable threshold
-
-### 3. Backtesting
-- Forward return evaluation over multiple horizons (5, 10, 20 days)
-- Signal-level performance statistics:
-  - Mean return
-  - Median return
-  - Win rate
-  - Number of signals
-
-### 4. Benchmarking
-- Buy-and-hold daily and cumulative returns
-- Direct comparison between strategy and benchmark
-- Excess return calculation
-
-### 5. Risk and Performance Metrics
-- Volatility
-- Maximum drawdown
-- Strategy vs benchmark comparison metrics
-
-### 6. Parameter Experiments
-- RSI threshold sweep
-- Sensitivity analysis of signal performance
-
-### 7. Visualization
-Automatically generated plots:
-- Price series with RSI buy signals
-- Strategy vs buy-and-hold cumulative returns
-- Strategy drawdown over time
-
-All plots are saved to the `outputs/` directory.
-
-
----
 ## Project Structure
-
 ```text
-market-intelligence-system/
+mean-reversion-signal-backtest/
 ├── data/
 │   ├── raw/
 │   └── processed/
 │
 ├── src/
 │   ├── analytics.py        # Indicators and signal logic
-│   ├── backtester.py       # Strategy and benchmark evaluation
-│   ├── metrics.py          # Risk and performance metrics
-│   ├── visualizer.py       # Plots and visual analysis
-│   └── experiments.py      # Parameter sweeps
+│   ├── backtester.py       # Signal evaluation logic
+│   ├── metrics.py          # Risk and performance statistics
+│   ├── visualizer.py       # Diagnostic plots
+│   └── experiments.py     # Parameter sweeps
 │
-├── main.py                 # End-to-end execution pipeline
+├── main.py                 # End-to-end execution
 ├── requirements.txt
 └── README.md
 ```
@@ -194,7 +80,7 @@ market-intelligence-system/
 
 ## Example Outputs (AAPL)
 
-The following plots illustrate the full pipeline output using AAPL as a representative example.
+Example diagnostic outputs are generated for a small set of representative equities and saved to the outputs/ directory.
 The same analysis is automatically generated for MSFT and GOOGL.
 
 ### Price with RSI Buy Signals
@@ -254,7 +140,6 @@ All outputs are fully reproducible from a clean clone of the repository.
 
 - Explicit assumptions and transparent logic
 
-- Research-first design, not production trading code
 
 ---
 
@@ -276,24 +161,8 @@ Results should be interpreted as research signals, not trading recommendations
 
 ---
 
-## Intened Audience
-
-This projects is suitable for:
-
-- Data Analyst and quantitative analyst porfolios
-
-- Strategy evaluation case studies
-
-- Interview discussions on backtesting methodolgy and limitations
-
-- Demonstrations of modular data engineering and research workfolws
-
-It is not intened for live trading or financial decision- making
-
----
 ## Disclaimer 
 
-This project is designed for research and educational purposes only.  
-It is not financial advice.
-
+This project is for educational and research purposes only.
+It does not constitute financial advice and should not be used for trading or investment decisions.
 ---
