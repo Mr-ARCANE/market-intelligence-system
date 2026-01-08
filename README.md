@@ -192,21 +192,6 @@ market-intelligence-system/
 
 ---
 
-## How to Run
-
-Install dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-Run the pipeline:
-
-```bash
-python main.py
-```
-
----
 ## Example Outputs (AAPL)
 
 The following plots illustrate the full pipeline output using AAPL as a representative example.
@@ -223,8 +208,92 @@ The same analysis is automatically generated for MSFT and GOOGL.
 
 <sub>Identical outputs are generated for MSFT and GOOGL.</sub>
 
-## Notes
+---
+## How to Run
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Run the pipeline:
+
+```bash
+python main.py
+```
+---
+## Outputs Generated
+Running main.py produces the following artifacts:
+
+-Cleaned and enriched datasets
+data/processed/*_stock.csv
+
+-Backtest summaries
+data/processed/*_rsi_backtest.csv
+
+-Performance metrics
+data/processed/*_performance_metrics.csv
+
+-Parameter sweep results
+data/processed/*_rsi_parameter_sweep.csv
+
+-Strategy visualizations (PNG files)
+outputs/
+
+All outputs are fully reproducible from a clean clone of the repository.
+
+---
+## Design Principles
+
+-Modular, readable, and testable code
+
+-Clear separation of concerns across pipeline stages
+
+-No hidden state or manual intervention
+
+-Explicit assumptions and transparent logic
+
+-Research-first design, not production trading code
+
+---
+
+## Limitations
+
+This project intentionally makes simplifying assumptions:
+
+- Long-only stratergies
+
+- No explict exit rules
+
+- No transaction costs or slippage
+
+- No position sizing or porfolio optimization
+
+- Single-assest evaluation per run
+
+Results should be interpreted as research signals, not trading recommendations
+
+---
+
+## Intened Audience
+
+This projects is suitable for:
+
+- Data Analyst and quantitative analyst porfolios
+
+- Strategy evaluation case studies
+
+- Interview discussions on backtesting methodolgy and limitations
+
+- Demonstrations of modular data engineering and research workfolws
+
+It is not intened for live trading or financial decision- making
+
+---
+## Disclaimer 
 
 This project is designed for research and educational purposes only.  
 It is not financial advice.
 
+---
